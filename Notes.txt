@@ -1,0 +1,1 @@
+Strings and array are different, all array methods don't work on Strings.
