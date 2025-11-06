@@ -1,1 +1,3 @@
 Strings and array are different, all array methods don't work on Strings.
+
+- how we itterate array & object & Strings
