@@ -1,3 +1,8 @@
 Strings and array are different, all array methods don't work on Strings.
 
 - how we itterate array & object & Strings
+
+
+const str = "klAABDFAAA";
+console.log(str.split('A'));
+// [ 'kl', '', 'BDF', '', '', '' ]
