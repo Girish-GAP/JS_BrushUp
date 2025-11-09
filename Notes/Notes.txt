@@ -13,3 +13,7 @@ console.log(str.split('A'));
 
 // Find the GCD of Two Numbers
 // Generate a Random Number Between Two Values
+
+
+
+// If I am not able to solve this means there is something i don't know, may be lang specific feature or trick or way
