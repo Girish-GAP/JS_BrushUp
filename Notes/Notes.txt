@@ -10,3 +10,6 @@ console.log(str.split('A'));
 
 
 // make a function which will return the count of number occurance from arr using object as map.
+
+// Find the GCD of Two Numbers
+// Generate a Random Number Between Two Values
