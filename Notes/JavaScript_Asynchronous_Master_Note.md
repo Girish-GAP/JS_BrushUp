@@ -144,146 +144,150 @@ doTask("Step1")
 
 ### ⚙️ Promise Utilities
 
-## 🧩 Method Reference Table
+---
 
-| Method      | 💬 Purpose                        | 🧠 Explanation                                                                                                 | 💻 Example |
-| ----------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------- |
-| **.then()** | Handle success (fulfilled result) | Runs when the Promise resolves successfully. You can chain multiple `.then()` calls for sequential operations. | ```js      |
+## 🧩 1️⃣ Core Methods
 
+| Method         | 💬 Purpose                        | 🧠 Explanation                                                                                                      |
+| -------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| **.then()**    | Handle success (fulfilled result) | Runs when the Promise is resolved successfully. You can chain multiple `.then()` calls to perform sequential steps. |
+| **.catch()**   | Handle error (rejected result)    | Runs when the Promise fails or throws an error. Always attach it at the end to handle unexpected rejections.        |
+| **.finally()** | Always runs (success or failure)  | Runs no matter what happens — success or failure. Commonly used for cleanup actions (e.g., hiding loader).          |
+
+### 🧑‍💻 Examples
+
+**.then():**
+
+```js
 const promise = Promise.resolve("✅ Success");
-promise.then(res => console.log(res)); // ✅ Success
+promise.then((res) => console.log(res)); // ✅ Success
+```
 
-````|
-| **.catch()** | Handle error (rejected result) | Runs when the Promise fails or throws an error. Always attach `.catch()` at the end to handle rejections. | ```js
+**.catch():**
+
+```js
 const promise = Promise.reject("❌ Error");
-promise.catch(err => console.log(err)); // ❌ Error
-``` |
-| **.finally()** | Always runs (success or failure) | Executes regardless of success or failure. Often used for cleanup actions (e.g., hide loader, close connection). | ```js
+promise.catch((err) => console.log(err)); // ❌ Error
+```
+
+**.finally():**
+
+```js
 fetch("https://api.github.com")
-  .then(res => console.log("Done"))
-  .catch(err => console.log("Failed"))
+  .then((res) => console.log("Done"))
+  .catch((err) => console.log("Failed"))
   .finally(() => console.log("Always runs"));
 // Always runs
-``` |
-| **Promise.all([])** | Run tasks in parallel → fail fast | Waits for all promises to resolve, but rejects if **any one fails**. Use when all tasks must succeed together. | ```js
-Promise.all([
-  fetch("/user"),
-  fetch("/posts"),
-  fetch("/comments")
-])
-.then(() => console.log("✅ All done"))
-.catch(() => console.log("❌ One failed"));
-``` |
-| **Promise.allSettled([])** | Wait for all tasks (success or failure) | Returns an array of results for every promise, regardless of success or failure. | ```js
-Promise.allSettled([
-  Promise.resolve("A"),
-  Promise.reject("B")
-])
-.then(res => console.log(res));
+```
+
+---
+
+## ⚙️ 2️⃣ Advanced Promise Utilities
+
+| Method                     | 💬 Purpose                                            | 🧠 Explanation                                                                                                                                     |
+| -------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Promise.all([])**        | Run tasks in parallel → _fail fast_                   | Waits for all promises to resolve, but if **any one fails**, the entire thing rejects immediately. Great for tasks that must all succeed together. |
+| **Promise.allSettled([])** | Wait for all tasks (success or failure)               | Returns results for every promise, even if some fail. Use when you need to process everything, not stop on failure.                                |
+| **Promise.race([])**       | Return the first promise to settle (success or error) | Returns the result of whichever Promise settles first — either resolves or rejects. Useful for timeouts or fastest-response wins.                  |
+
+### 🧑‍💻 Examples
+
+**Promise.all():**
+
+```js
+Promise.all([fetch("/user"), fetch("/posts"), fetch("/comments")])
+  .then(() => console.log("✅ All done"))
+  .catch(() => console.log("❌ One failed"));
+```
+
+**Promise.allSettled():**
+
+```js
+Promise.allSettled([Promise.resolve("A"), Promise.reject("B")]).then((res) =>
+  console.log(res)
+);
 // [
-//   {status: 'fulfilled', value: 'A'},
-//   {status: 'rejected', reason: 'B'}
+//   { status: "fulfilled", value: "A" },
+//   { status: "rejected", reason: "B" }
 // ]
-``` |
-| **Promise.race([])** | Return first promise to settle | Returns the result of whichever promise settles first (resolve or reject). Useful for **timeouts** or **fastest response wins**. | ```js
-const p1 = new Promise(res => setTimeout(res, 300, "⏱️ slow"));
-const p2 = new Promise(res => setTimeout(res, 100, "⚡ fast"));
+```
+
+**Promise.race():**
+
+```js
+const p1 = new Promise((res) => setTimeout(res, 300, "⏱️ slow"));
+const p2 = new Promise((res) => setTimeout(res, 100, "⚡ fast"));
 Promise.race([p1, p2]).then(console.log); // ⚡ fast
-``` |
-
----
-
-## 💡 Quick Summary
-
-| Feature | Description | Common Use |
-|----------|--------------|-------------|
-| **then()** | Handle resolved values | Success handling |
-| **catch()** | Handle rejected promises | Error handling |
-| **finally()** | Always executes | Cleanup logic |
-| **Promise.all()** | Wait for all → reject if one fails | Dependent tasks |
-| **Promise.allSettled()** | Wait for all, ignore failures | Batch processing |
-| **Promise.race()** | Returns first settled | Timeout or fast task |
-
----
-
-## ⚙️ Real-World Use Cases
-
-### 🧩 1️⃣ Parallel API Calls (All Must Succeed)
-```js
-async function loadData() {
-  try {
-    const [user, posts, comments] = await Promise.all([
-      fetch("/user"),
-      fetch("/posts"),
-      fetch("/comments")
-    ]);
-    console.log("✅ Loaded everything");
-  } catch (err) {
-    console.error("❌ One of them failed");
-  }
-}
-````
-
-### 🧩 2️⃣ Batch Processing (Regardless of Errors)
-
-```js
-const results = await Promise.allSettled([fetch("/good"), fetch("/bad")]);
-console.log(results);
-```
-
-### 🧩 3️⃣ Race for Fastest Response
-
-```js
-const fastAPI = fetch("/api1");
-const slowAPI = fetch("/api2");
-
-Promise.race([fastAPI, slowAPI])
-  .then(() => console.log("First response wins"))
-  .catch(() => console.log("Error"));
-```
-
-### 🧩 4️⃣ Timeout Wrapper Example
-
-```js
-function timeout(ms) {
-  return new Promise((_, reject) => setTimeout(() => reject("⏰ Timeout"), ms));
-}
-
-Promise.race([fetch("/data"), timeout(5000)])
-  .then(() => console.log("✅ Success"))
-  .catch((err) => console.error(err)); // ⏰ Timeout if slow
 ```
 
 ---
 
-## 🧠 Interview & Industry Tips
+## 💡 3️⃣ Quick Comparison Table
 
-✅ Always end promise chains with `.catch()` to handle rejections.  
-✅ Prefer `Promise.allSettled()` for batch operations.  
-✅ Use `Promise.race()` to implement timeouts.  
-✅ Chain `.then()` for sequential, `.all()` for parallel.  
-✅ Combine with async/await for cleaner syntax.
-
----
-
-## 🚀 Final Cheat Sheet
-
-| Method                 | Runs When     | Stops On Error? | Best For                   |
-| ---------------------- | ------------- | --------------- | -------------------------- |
-| `.then()`              | Success only  | ❌              | Normal success flow        |
-| `.catch()`             | Error only    | ✅              | Error handling             |
-| `.finally()`           | Always        | ❌              | Cleanup                    |
-| `Promise.all()`        | All succeed   | ✅              | All-or-nothing             |
-| `Promise.allSettled()` | All finish    | ❌              | Batch processing           |
-| `Promise.race()`       | First settles | ❌              | Timeout / fastest response |
+| Feature                | `.then()`         | `.catch()`    | `.finally()` | `Promise.all()`   | `Promise.allSettled()` | `Promise.race()` |
+| ---------------------- | ----------------- | ------------- | ------------ | ----------------- | ---------------------- | ---------------- |
+| Runs on success        | ✅                | ❌            | ✅           | ✅                | ✅                     | ✅               |
+| Runs on failure        | ❌                | ✅            | ✅           | ❌ (fails fast)   | ✅                     | ✅               |
+| Returns results array  | ❌                | ❌            | ❌           | ✅ if all success | ✅ always              | ✅ one result    |
+| Waits for all promises | ❌                | ❌            | ❌           | ✅                | ✅                     | ❌ (first only)  |
+| Fails fast             | ❌                | ❌            | ❌           | ✅                | ❌                     | ✅               |
+| Common use             | Chain async logic | Handle errors | Cleanup      | Parallel tasks    | Collect all outcomes   | Timeout/fallback |
 
 ---
 
-💬 **Summary Thought:**  
-👉 Use the right Promise utility based on whether you want _speed_, _reliability_, or _completeness_.  
-Mastering these makes your async code robust, performant, and production-grade.
+## 🧠 4️⃣ Best Practices
+
+✅ Always use `.catch()` at the end to prevent unhandled rejections.  
+✅ Use `Promise.all()` for parallel requests that **must all succeed**.  
+✅ Use `Promise.allSettled()` when you need results even if some fail.  
+✅ Use `Promise.race()` for timeout or fastest-response logic.  
+✅ Use `.finally()` for cleanup like closing loaders or releasing locks.  
+✅ Chain `.then()` for sequential logic — or `async/await` for clarity.
 
 ---
+
+## 🚀 5️⃣ Example — Real Project Use Case
+
+```js
+const fetchUser = fetch("/api/user");
+const fetchPosts = fetch("/api/posts");
+const fetchComments = fetch("/api/comments");
+
+Promise.all([fetchUser, fetchPosts, fetchComments])
+  .then(([userRes, postRes, commentRes]) =>
+    Promise.all([userRes.json(), postRes.json(), commentRes.json()])
+  )
+  .then(([user, posts, comments]) => {
+    console.log("✅ All data ready");
+    console.log({ user, posts, comments });
+  })
+  .catch(() => console.log("❌ Failed to fetch some data"))
+  .finally(() => console.log("🚀 Cleanup done"));
+```
+
+---
+
+## 🧾 6️⃣ Summary — When to Use Which
+
+| Situation                                   | Recommended Method               |
+| ------------------------------------------- | -------------------------------- |
+| Sequential tasks                            | `.then()` chain or `async/await` |
+| Handle errors                               | `.catch()`                       |
+| Always execute cleanup                      | `.finally()`                     |
+| Run all tasks in parallel (stop on failure) | `Promise.all()`                  |
+| Run all tasks regardless of outcome         | `Promise.allSettled()`           |
+| Take the fastest result                     | `Promise.race()`                 |
+
+---
+
+## 🧭 TL;DR Mental Model
+
+- `.then()` → "What to do **when success happens**" ✅
+- `.catch()` → "What to do **if something fails**" ❌
+- `.finally()` → "Always clean up afterward" 🧹
+- `Promise.all()` → "All or nothing" 🎯
+- `Promise.allSettled()` → "Give me everything, success or fail" 📦
+- `Promise.race()` → "Whoever finishes first wins" 🏁
 
 ## 🚀 4. Async / Await
 
