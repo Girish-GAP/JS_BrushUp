@@ -17,3 +17,5 @@ console.log(str.split('A'));
 
 
 // If I am not able to solve this means there is something i don't know, may be lang specific feature or trick or way
+
+// Practice on promise
