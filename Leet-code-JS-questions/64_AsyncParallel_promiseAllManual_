@@ -1,0 +1,31 @@
+/**
+ * @param {Array<Function>} functions
+ * @return {Promise<any>}
+ */
+var promiseAll = function (functions) {
+  const ans = new Promise((resolve, reject) => {
+    let arr = [];
+    let cnt = 0;
+
+    for (let i = 0; i < functions.length; i++) {
+      functions[i]()
+        .then((ret) => {
+          arr[i] = ret;
+          cnt++;
+          // arr.length === functions.length // will not work bcs each iteration complets on different type they are not sequential & if end one fill the space first then it will create the empty elements in array.
+          if (cnt === functions.length) {
+            resolve(arr);
+          }
+        })
+        .catch((e) => {
+          reject("Error");
+        });
+    }
+  });
+  return ans;
+};
+
+/**
+ * const promise = promiseAll([() => new Promise(res => res(42))])
+ * promise.then(console.log); // [42]
+ */

@@ -222,6 +222,113 @@ Promise.race([p1, p2]).then(console.log); // ⚡ fast
 
 ---
 
+# 🧩 JavaScript `Promise.all()` — Master Reference
+
+## ⚙️ 1️⃣ What It Does
+
+**`Promise.all()`** runs multiple promises **in parallel** and:
+
+- ✅ Resolves when **all promises succeed**.
+- ❌ Rejects **immediately** when **any promise fails**.
+- ✅ Keeps results **in input order** (even if resolved out of order).
+- ✅ Resolves instantly with `[]` if given an empty array.
+
+### Example
+
+```js
+const p1 = Promise.resolve(10);
+const p2 = new Promise((res) => setTimeout(() => res(20), 100));
+const p3 = Promise.resolve(30);
+
+Promise.all([p1, p2, p3])
+  .then((res) => console.log(res)) // [10, 20, 30]
+  .catch((err) => console.error(err));
+```
+
+---
+
+## 🧱 2️⃣ Internal Logic (Simplified)
+
+- Keeps a **counter** for completed promises.
+- Stores each resolved value by **index**.
+- Once `count === total`, resolves with all results.
+- Rejects immediately if any promise rejects.
+
+### Conceptual Code
+
+```js
+function myPromiseAll(promises) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    let count = 0;
+
+    if (promises.length === 0) return resolve([]);
+
+    promises.forEach((p, index) => {
+      Promise.resolve(p)
+        .then((value) => {
+          results[index] = value;
+          count++;
+          if (count === promises.length) resolve(results);
+        })
+        .catch(reject);
+    });
+  });
+}
+```
+
+✅ Use **a counter** — don’t rely only on `arr.length` (it may include holes or be sparse).
+
+---
+
+## 🧠 3️⃣ Event Loop & Microtasks
+
+JavaScript runs in the following order:
+
+1️⃣ **Synchronous code**
+2️⃣ **Microtasks** → Promises (.then, .catch, .finally)
+3️⃣ **Macrotasks** → setTimeout, setInterval, etc.
+
+### Example
+
+```js
+console.log("A");
+Promise.resolve().then(() => console.log("B"));
+setTimeout(() => console.log("C"));
+console.log("D");
+```
+
+🧾 **Output:**
+
+```
+A
+D
+B
+C
+```
+
+➡️ `.then()` runs **after synchronous code** but **before timeouts**.
+
+---
+
+## 🧾 4️⃣ TL;DR Summary
+
+| Concept                 | Key Idea                                                      |
+| ----------------------- | ------------------------------------------------------------- |
+| **Promise.all**         | Runs all in parallel → resolves when all succeed → fails fast |
+| **Count vs arr.length** | Count tracks completions accurately                           |
+| **Event Loop Order**    | Sync → Microtasks → Macrotasks                                |
+| **`.then()` Timing**    | Runs before timeouts                                          |
+
+---
+
+✅ **Best Practice Tips**
+
+- Use `Promise.all()` when all results are required.
+- Handle errors with `.catch()` or try/catch in `async`.
+- Use `Promise.allSettled()` when you want all results regardless of errors.
+- Avoid unhandled rejections — always attach `.catch()`.
+
 ## 💡 3️⃣ Quick Comparison Table
 
 | Feature                | `.then()`         | `.catch()`    | `.finally()` | `Promise.all()`   | `Promise.allSettled()` | `Promise.race()` |
