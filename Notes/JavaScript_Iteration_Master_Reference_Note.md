@@ -4,11 +4,11 @@
 
 ## 🧩 1️⃣ What Arrays, Objects, and Strings Actually Are
 
-| Type | What It Really Is | Example | Key Point |
-|------|--------------------|----------|------------|
-| Object | Base structure in JS | `{ name: "Girish", age: 24 }` | Everything in JS (Array, Function) is built from Objects |
-| Array | Special kind of Object with numeric keys ("0", "1", "2") | `[10, 20, 30]` → internally `{0:10, 1:20, 2:30, length:3}` | That’s why `typeof [] === 'object'` |
-| String | Array-like object with indexes for each char | `"abc"[0] → "a"` | Immutable — can’t change characters |
+| Type   | What It Really Is                                        | Example                                                    | Key Point                                                |
+| ------ | -------------------------------------------------------- | ---------------------------------------------------------- | -------------------------------------------------------- |
+| Object | Base structure in JS                                     | `{ name: "Girish", age: 24 }`                              | Everything in JS (Array, Function) is built from Objects |
+| Array  | Special kind of Object with numeric keys ("0", "1", "2") | `[10, 20, 30]` → internally `{0:10, 1:20, 2:30, length:3}` | That’s why `typeof [] === 'object'`                      |
+| String | Array-like object with indexes for each char             | `"abc"[0] → "a"`                                           | Immutable — can’t change characters                      |
 
 ---
 
@@ -26,6 +26,7 @@ for (let i = 0; i < arr.length; i++) {
 ```
 
 ✅ Use when:
+
 - You need index (`i`)
 - You might use `break` or `continue`
 
@@ -107,6 +108,7 @@ for (let value of arr) {
 ❌ Cannot use for: Plain objects (non-iterable)
 
 **String example:**
+
 ```js
 for (let char of "Hi!") console.log(char);
 // H, i, !
@@ -132,14 +134,14 @@ arr.forEach((num, i) => {
 
 Modern, functional ways of looping arrays.
 
-| Method | What it does | Example |
-|--------|---------------|----------|
-| map() | Transforms elements and returns a new array | `[1,2,3].map(x => x*2)` → `[2,4,6]` |
-| filter() | Keeps elements matching condition | `[1,2,3,4].filter(x => x>2)` → `[3,4]` |
-| reduce() | Combines into one value | `[1,2,3].reduce((a,b)=>a+b,0)` → `6` |
-| find() | Finds first matching element | `[10,20,30].find(x => x>15)` → `20` |
-| every() | Checks if all match | `[2,4,6].every(x=>x%2===0)` → `true` |
-| some() | Checks if any match | `[1,2,3].some(x=>x>2)` → `true` |
+| Method   | What it does                                | Example                                |
+| -------- | ------------------------------------------- | -------------------------------------- |
+| map()    | Transforms elements and returns a new array | `[1,2,3].map(x => x*2)` → `[2,4,6]`    |
+| filter() | Keeps elements matching condition           | `[1,2,3,4].filter(x => x>2)` → `[3,4]` |
+| reduce() | Combines into one value                     | `[1,2,3].reduce((a,b)=>a+b,0)` → `6`   |
+| find()   | Finds first matching element                | `[10,20,30].find(x => x>15)` → `20`    |
+| every()  | Checks if all match                         | `[2,4,6].every(x=>x%2===0)` → `true`   |
+| some()   | Checks if any match                         | `[1,2,3].some(x=>x>2)` → `true`        |
 
 ✅ Use when: You want functional, clean, non-mutating approach  
 ❌ Avoid when: You need to stop early (they loop entire array)
@@ -154,10 +156,10 @@ Objects are **not iterable**, so convert them first.
 const user = { name: "Girish", age: 24 };
 
 // Keys
-Object.keys(user).forEach(key => console.log(key)); // name, age
+Object.keys(user).forEach((key) => console.log(key)); // name, age
 
 // Values
-Object.values(user).forEach(val => console.log(val)); // Girish, 24
+Object.values(user).forEach((val) => console.log(val)); // Girish, 24
 
 // Entries
 Object.entries(user).forEach(([key, val]) => console.log(key, val));
@@ -197,13 +199,13 @@ for (let i = 0; i < str.length; i++) {
 
 ## 🧠 7️⃣ Iterable vs Non-Iterable Types
 
-| Type | Iterable? | Use for...of? | Notes |
-|------|-------------|---------------|--------|
-| Array | ✅ | ✅ | Loops over values |
-| String | ✅ | ✅ | Loops over characters |
-| Map | ✅ | ✅ | Loops over entries [key, value] |
-| Set | ✅ | ✅ | Loops over values |
-| Object | ❌ | ❌ | Must convert with `Object.entries()` |
+| Type   | Iterable? | Use for...of? | Notes                                |
+| ------ | --------- | ------------- | ------------------------------------ |
+| Array  | ✅        | ✅            | Loops over values                    |
+| String | ✅        | ✅            | Loops over characters                |
+| Map    | ✅        | ✅            | Loops over entries [key, value]      |
+| Set    | ✅        | ✅            | Loops over values                    |
+| Object | ❌        | ❌            | Must convert with `Object.entries()` |
 
 ---
 
@@ -243,18 +245,40 @@ console.log(str); // still "Hello" (immutable)
 
 ## 🧠 🔟 Final Summary — Which Loop to Use (and Avoid)
 
-| Purpose | Best Loop | Avoid | Why |
-|----------|------------|--------|-----|
-| Iterate Array (values only) | `for...of` / `forEach()` | `for...in` | clean, safe |
-| Iterate Array (need index) | `for` | `for...in` | index control |
-| Transform Array | `map()` | `for...in` | modern, functional |
-| Filter Array | `filter()` | manual loops | readable |
-| Sum or reduce values | `reduce()` | `for...in` | concise, expressive |
-| Iterate Object (keys/values) | `Object.entries() + forEach()` | `for...of` | object not iterable |
-| Iterate String (chars) | `for...of` | `for...in` | works cleanly |
-| Conditional Looping | `while` / `do...while` | — | for condition-based loops |
+| Purpose                      | Best Loop                      | Avoid        | Why                       |
+| ---------------------------- | ------------------------------ | ------------ | ------------------------- |
+| Iterate Array (values only)  | `for...of` / `forEach()`       | `for...in`   | clean, safe               |
+| Iterate Array (need index)   | `for`                          | `for...in`   | index control             |
+| Transform Array              | `map()`                        | `for...in`   | modern, functional        |
+| Filter Array                 | `filter()`                     | manual loops | readable                  |
+| Sum or reduce values         | `reduce()`                     | `for...in`   | concise, expressive       |
+| Iterate Object (keys/values) | `Object.entries() + forEach()` | `for...of`   | object not iterable       |
+| Iterate String (chars)       | `for...of`                     | `for...in`   | works cleanly             |
+| Conditional Looping          | `while` / `do...while`         | —            | for condition-based loops |
 
 ---
+
+```js
+arr
+  .map((x) => ({ key: fn(x), value: x }))
+  .sort((a, b) => a.key - b.key)
+  .map((obj) => obj.value);
+```
+
+Each call creates a new array from the previous one.
+
+```js
+const step1 = arr.map(...);
+const step2 = step1.sort(...);
+const step3 = step2.map(...);
+```
+
+```js
+Raw input → Map stage → Sort stage → Map stage → Final output
+```
+
+Chained methods (map, sort, filter, etc.) execute one full pass each, not nested.
+They’re optimized for readability and clarity, and JS engines handle them efficiently.
 
 ## ✅ Key Takeaways
 
