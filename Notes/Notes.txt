@@ -19,3 +19,6 @@ console.log(str.split('A'));
 // If I am not able to solve this means there is something i don't know, may be lang specific feature or trick or way
 
 // Practice on promise
+
+
+// what will happen if i am looping through the arr and in iteration adding the element in same arr
