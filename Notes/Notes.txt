@@ -25,3 +25,7 @@ console.log(str.split('A'));
 
 // recurssion 
 2625. Flatten Deeply Nested Array
+
+
+Would you like me to write a “Deep Recursion Pattern Note (Objects, Arrays, Trees)” next —
+with visual diagrams and step-by-step reasoning to help you see how recursion builds results from the bottom up (for problems like Compact Object, Flatten, Clone, etc.)?
