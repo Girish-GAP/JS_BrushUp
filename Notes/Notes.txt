@@ -22,3 +22,6 @@ console.log(str.split('A'));
 
 
 // what will happen if i am looping through the arr and in iteration adding the element in same arr
+
+// recurssion 
+2625. Flatten Deeply Nested Array

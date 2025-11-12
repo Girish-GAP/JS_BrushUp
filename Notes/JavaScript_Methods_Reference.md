@@ -81,6 +81,20 @@ Objects store **key-value pairs**. Most are **non‑mutating**, some **mutate** 
 
 ---
 
+If wanted to print this methods in console just use this :
+
+```js
+function listMethods(obj) {
+  return Object.getOwnPropertyNames(obj.prototype).filter(
+    (prop) => typeof obj.prototype[prop] === "function"
+  );
+}
+
+// Usage:
+console.log(listMethods(Array)); // All Array methods
+console.log(listMethods(Map)); // All Map methods
+```
+
 ## 🔁 4. OVERLAPS (Shared Concepts)
 
 | Feature        | String | Array | Object | Purpose / Note                                       |
