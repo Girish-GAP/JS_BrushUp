@@ -1,3 +1,8 @@
+Problems :
+GFG : https://www.geeksforgeeks.org/javascript/javascript-coding-questions-and-answers/
+Leetcode : https://leetcode.com/studyplan/30-days-of-javascript/
+
+
 Strings and array are different, all array methods don't work on Strings.
 
 - how we itterate array & object & Strings
@@ -31,3 +36,23 @@ Would you like me to write a “Deep Recursion Pattern Note (Objects, Arrays, Tr
 with visual diagrams and step-by-step reasoning to help you see how recursion builds results from the bottom up (for problems like Compact Object, Flatten, Clone, etc.)?
 
 // 2694. Event Emitter
+
+
+// regex is pending
+// what is deepclone
+// if string is primitive and not mutable why it's like array ?
+// arr.size(); // and similar
+
+// what is mean unmutatable if we can change the value ?
+let str = "ABCD";
+console.log(str); // ABCD
+str = str.slice(1);
+console.log(str) // BCD
+
+https://www.jschallenger.com/javascript-basics/variables/introduction/
+https://programiz.pro/community-challenges/javascript
+
+https://github.com/sudheerj/javascript-interview-questions/tree/master
+https://roadmap.sh/questions/javascript
+https://roadmap.sh/questions/javascript-coding
+https://www.fullstack.cafe/interview-questions/javascript
