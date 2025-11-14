@@ -115,6 +115,40 @@ console.log(listMethods(Array)); // All Array methods
 console.log(listMethods(Map)); // All Map methods
 ```
 
+1. You can view the function definition in console
+
+For most built-in or custom methods:
+
+console.log(Array.prototype.map);
+
+✅ Output:
+
+```js
+ƒ map() { [native code] }
+```
+
+This means map is a native function implemented in C++ (inside the JS engine) — not in JavaScript code, so you can’t see its inner logic directly.
+
+⚡ 2. For your own functions, you can see the full body
+
+```js
+function add(a, b) {
+  return a + b;
+}
+```
+
+console.log(add.toString());
+
+✅ Output:
+
+```js
+"function add(a, b) {
+  return a + b;
+}"
+```
+
+So .toString() gives you the exact function definition in string form.
+
 ## 🔁 4. OVERLAPS (Shared Concepts)
 
 | Feature        | String | Array | Object | Purpose / Note                                       |
