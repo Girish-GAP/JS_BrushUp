@@ -45,6 +45,12 @@ with visual diagrams and step-by-step reasoning to help you see how recursion bu
 // arr.size(); // and similar
 https://jscodebox.com/challenge/tic-tac-toe-solver
 // remember algo which helps to reach all the keys of object all nested also.
+// algo for render nested array also // max value from nested arr.
+
+// GFG concepts and problems
+https://www.geeksforgeeks.org/javascript/
+
+// for each loop
 
 // what is mean unmutatable if we can change the value ?
 let str = "ABCD";
@@ -59,6 +65,13 @@ https://github.com/sudheerj/javascript-interview-questions/tree/master
 https://roadmap.sh/questions/javascript
 https://roadmap.sh/questions/javascript-coding
 https://www.fullstack.cafe/interview-questions/javascript
+https://github.com/greatfrontend/top-javascript-interview-questions
 
 
 // problems from 80 need to check optimized solutions.
+
+// make a last minute js knowlege test website with questions and ans
+
+
+var let = 5;
+console.log(let);  // 5

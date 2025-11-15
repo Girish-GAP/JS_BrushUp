@@ -88,23 +88,23 @@ obj.__proto__;
 
 ### 🧩 Static Methods (called on Object itself)
 
-| Method                                | Purpose                                                 |
-| ------------------------------------- | ------------------------------------------------------- |
-| Object.keys(obj)                      | Returns array of keys                                   |
-| Object.values(obj)                    | Returns array of values                                 |
-| Object.entries(obj)                   | Returns array of [key, value] pairs                     |
-| Object.fromEntries(entries)           | Converts [key, value] pairs back to object              |
-| Object.assign(target, ...sources)     | Copies properties from source to target                 |
-| Object.create(proto)                  | Creates a new object with a given prototype             |
-| Object.freeze(obj)                    | Makes object completely immutable                       |
-| Object.seal(obj)                      | Prevents adding/removing properties (can modify values) |
-| Object.preventExtensions(obj)         | Prevents adding new properties                          |
-| Object.getPrototypeOf(obj)            | Returns prototype                                       |
-| Object.setPrototypeOf(obj, proto)     | Sets prototype                                          |
-| Object.getOwnPropertyNames(obj)       | Lists all property names (including non-enumerable)     |
-| Object.getOwnPropertyDescriptors(obj) | Returns all property descriptors                        |
-| Object.hasOwn(obj, key)               | Checks if property exists directly on object (ES2022)   |
-| Object.is(a, b)                       | Like === but handles NaN and -0 correctly               |
+| **Method**                                | **Purpose**                     | **Example**                               | **Returns**                        | **Mutates?**            | **Original Object After Mutation**            | **Related / Hidden Details**              |
+| ----------------------------------------- | ------------------------------- | ----------------------------------------- | ---------------------------------- | ----------------------- | --------------------------------------------- | ----------------------------------------- |
+| **Object.keys(obj)**                      | Get array of keys               | `Object.keys({a:1,b:2})`                  | `['a','b']`                        | ❌                      | Unchanged                                     | Ignores symbols                           |
+| **Object.values(obj)**                    | Get array of values             | `Object.values({a:1,b:2})`                | `[1,2]`                            | ❌                      | Unchanged                                     | —                                         |
+| **Object.entries(obj)**                   | Key-value pairs array           | `Object.entries({a:1})`                   | `[ ['a',1] ]`                      | ❌                      | Unchanged                                     | Pairs work with `fromEntries`             |
+| **Object.fromEntries(arr)**               | Pairs → object                  | `Object.fromEntries([['a',1]])`           | `{a:1}`                            | ❌                      | Original arrays unchanged                     | Opposite of `entries()`                   |
+| **Object.assign(target, src)**            | Copy props to target            | `Object.assign(t = {}, {a:1})`            | `{a:1}`                            | ✅ on _target_          | `t` becomes `{a:1}`                           | Shallow copy — nested objects are shared  |
+| **Object.create(proto)**                  | Create object with prototype    | `Object.create({x:1})`                    | New object                         | ❌                      | No change to prototype object                 | Prototype inheritance                     |
+| **Object.freeze(obj)**                    | Make immutable                  | `Object.freeze(o = {a:1})`                | Same object                        | ⚠️ “Mutates” by locking | `o` becomes frozen: cannot change/add/delete  | Shallow freeze                            |
+| **Object.seal(obj)**                      | Lock structure                  | `Object.seal(o = {a:1})`                  | Same object                        | ⚠️ “Mutates” by sealing | `o` cannot add/remove keys; can change values | —                                         |
+| **Object.preventExtensions(obj)**         | Disallow new props              | `Object.preventExtensions(o={a:1})`       | Same object                        | ⚠️ “Mutates” by locking | `o` cannot gain new keys; existing editable   | —                                         |
+| **Object.getPrototypeOf(obj)**            | Get prototype                   | `Object.getPrototypeOf([])`               | `Array.prototype`                  | ❌                      | Unchanged                                     | —                                         |
+| **Object.setPrototypeOf(obj, proto)**     | Change prototype                | `Object.setPrototypeOf(o={}, null)`       | Same object                        | ⚠️ Yes                  | `o` now has `null` prototype                  | Slow — avoid in hot code                  |
+| **Object.getOwnPropertyNames(obj)**       | All property names              | `Object.getOwnPropertyNames({a:1})`       | `['a']`                            | ❌                      | Unchanged                                     | Includes non-enumerable, excludes symbols |
+| **Object.getOwnPropertyDescriptors(obj)** | All property descriptors        | `Object.getOwnPropertyDescriptors({a:1})` | `{a:{value:1, writable:true,...}}` | ❌                      | Unchanged                                     | Used for deep cloning with descriptors    |
+| **Object.hasOwn(obj, key)**               | Own property check              | `Object.hasOwn({a:1}, 'a')`               | `true`                             | ❌                      | Unchanged                                     | Safer replacement for `hasOwnProperty()`  |
+| **Object.is(a, b)**                       | Like `===` but fixes edge cases | `Object.is(NaN, NaN)`                     | `true`                             | ❌                      | No object involved                            | `Object.is(+0, -0)` → false               |
 
 ---
 
