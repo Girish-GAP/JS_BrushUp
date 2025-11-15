@@ -1,161 +1,177 @@
-# ⚡️ JS Number — Quick Revision Notes
+# ⚡️ JavaScript Numbers — Complete & Practical Reference (All-in-One)
 
-## 📘 Numbers are Primitive & Immutable
-JavaScript numbers are **primitive values** (not objects), meaning they cannot be changed once created.
+## 📘 1️⃣ Numbers Are Primitive & Immutable
 
-```js
-let a = 10;
-a.toFixed(2); // returns "10.00", but doesn't change a
-console.log(a); // still 10 ✅
-```
-
-Even though you can call methods like `.toFixed()` or `.toPrecision()`, they **return a new value** (usually string) and don’t modify the original number.
-
-Internally, JS temporarily wraps the primitive in a **Number object** so you can call methods:
+JavaScript numbers are **primitive values** (not objects) and **immutable**.
 
 ```js
 let a = 10;
-// JS secretly does:
-new Number(a).toFixed(2); // "10.00"
+a.toFixed(2); // "10.00"
+console.log(a); // 10
 ```
+
+JS temporarily wraps primitives in a `Number` object when calling methods.
 
 ---
 
-## 🧩 1️⃣ Basics
-- JS has only one numeric type: **number** (IEEE 754 double-precision float).
-- Range ≈ ±(2^1024), precision ~15–17 digits.
-- ✅ Safe integer range: `−(2^53−1)` → `+(2^53−1)`
+## 🧩 2️⃣ JS Number Basics
 
-```js
-Number.MIN_SAFE_INTEGER; // -9007199254740991
-Number.MAX_SAFE_INTEGER; // 9007199254740991
-```
+- Single numeric type: 64‑bit IEEE 754
+- Precision: ~15–17 digits
+- Safe integer range: ±(2^53−1)
 
 ---
 
-## 🔢 2️⃣ Number Creation
+## 🔢 3️⃣ Number Creation
+
 ```js
 let n1 = 10; // primitive
-let n2 = new Number(10); // object wrapper ❌
-
-typeof n1; // "number"
-typeof n2; // "object"
+let n2 = new Number(10); // object ❌
 ```
-⚠️ Always use **primitive** numbers — object wrappers cause issues in comparisons.
 
 ---
 
-## 🧮 3️⃣ Common Instance Methods
+## 🧮 4️⃣ Instance Methods
 
-| Method | Purpose | Example | Output |
-|--------|----------|----------|--------|
-| **toFixed(d)** | Fixed decimals → string | (10.567).toFixed(2) | '10.57' |
-| **toPrecision(d)** | Total significant digits | (10.567).toPrecision(3) | '10.6' |
-| **toExponential(d)** | Scientific form | (1000).toExponential(2) | '1.00e+3' |
-| **toString(base)** | Convert base (2, 8, 16, etc.) | (255).toString(16) | 'ff' |
-| **toLocaleString()** | Locale formatting | (1234567.89).toLocaleString('en-IN') | '12,34,567.89' |
-| **valueOf()** | Returns primitive value | (100).valueOf() | 100 |
-
-💡 Tip: Use `(10).toFixed(2)` instead of `10.toFixed(2)` (dot parsing issue).
+| Method           | Purpose                  |
+| ---------------- | ------------------------ |
+| toFixed()        | Fixed decimals (string)  |
+| toPrecision()    | Total significant digits |
+| toExponential()  | Scientific format        |
+| toString(base)   | Convert base             |
+| toLocaleString() | Locale formatting        |
+| valueOf()        | Primitive value          |
 
 ---
 
-## 🧠 4️⃣ Static Methods (on Number)
+## 🧠 5️⃣ Static Methods
 
-| Method | Purpose | Example | Output |
-|--------|----------|----------|--------|
-| **Number.isFinite(x)** | Checks finite | Number.isFinite(10/0) | false |
-| **Number.isInteger(x)** | True if integer | Number.isInteger(10.5) | false |
-| **Number.isNaN(x)** | True if real NaN | Number.isNaN('a'/2) | true |
-| **Number.isSafeInteger(x)** | Within safe range | Number.isSafeInteger(2**53) | false |
-| **Number.parseFloat(str)** | Parse float | Number.parseFloat('10.5px') | 10.5 |
-| **Number.parseInt(str, base)** | Parse int | Number.parseInt('101', 2) | 5 |
+Number.isFinite(), Number.isInteger(), Number.isNaN(), Number.isSafeInteger(), Number.parseFloat(), Number.parseInt()
 
 ---
 
-## 🧱 5️⃣ Static Properties
+## 🧱 6️⃣ Static Properties
 
-| Property | Description |
-|-----------|--------------|
-| **Number.MAX_VALUE** | 1.79e+308 (largest number) |
-| **Number.MIN_VALUE** | 5e-324 (smallest positive) |
-| **Number.MAX_SAFE_INTEGER** | 9007199254740991 |
-| **Number.MIN_SAFE_INTEGER** | -9007199254740991 |
-| **Number.POSITIVE_INFINITY / NEGATIVE_INFINITY** | Infinity constants |
-| **Number.NaN** | Constant “Not-a-Number” |
+MAX_VALUE, MIN_VALUE, MAX_SAFE_INTEGER, MIN_SAFE_INTEGER, POSITIVE_INFINITY, NEGATIVE_INFINITY, NaN
 
 ---
 
-## 🎯 6️⃣ Math Operations
+## 🎯 7️⃣ Math Methods
+
+Math.round(), floor(), ceil(), trunc(), random(), pow(), sqrt(), abs(), min(), max()
+
+---
+
+## 💥 8️⃣ Special Values
+
+Infinity, -Infinity, NaN
+
+Use `Number.isNaN()` instead of `isNaN()`.
+
+---
+
+## ⚙️ 9️⃣ Type Conversion
+
+Number(), +str, parseInt(), parseFloat()
+
+---
+
+## 🧠 🔟 Floating-Point Issues
 
 ```js
-Math.round(4.7) // 5
-Math.floor(4.7) // 4
-Math.ceil(4.1) // 5
-Math.trunc(4.9) // 4
-Math.random() // 0 → 1
-Math.pow(2,3) // 8
-Math.sqrt(16) // 4
-Math.abs(-5) // 5
-Math.min(3,1,5) // 1
-Math.max(3,1,5) // 5
+0.1 + 0.2; // 0.30000000000000004
 ```
 
-🧠 Tip: Know rounding difference between `floor`, `ceil`, `trunc`, `round`.
-
----
-
-## 🧩 7️⃣ Special Number Values
-
-| Value | Meaning |
-|--------|----------|
-| **Infinity** | Overflow / division by 0 |
-| **-Infinity** | Underflow |
-| **NaN** | Invalid number (`'a'/2`) |
-| **isNaN()** | Global function (coerces input) — prefer `Number.isNaN()` |
-
----
-
-## ⚙️ 8️⃣ Type Conversion
+Fix:
 
 ```js
-Number('10') // 10
-+'10' // 10
-parseInt('10px') // 10
-parseFloat('10.5') // 10.5
-Number(true) // 1
-Number(false) // 0
-Number('') // 0
-Number(null) // 0
-Number(undefined) // NaN
+Math.round((0.1 + 0.2) * 100) / 100;
 ```
 
----
-
-## 🧠 9️⃣ Interview Tips / Gotchas
-
-| Case | Explanation |
-|------|--------------|
-| 0.1 + 0.2 !== 0.3 | Floating-point precision issue |
-| ✅ Fix | `+(0.1 + 0.2).toFixed(1)` |
-| NaN === NaN | false (NaN never equals itself) |
-| typeof NaN | 'number' |
-| Division by 0 | Returns Infinity, not error |
-| parseInt('08') | 8 (base 10 default since ES5) |
-| Math.round(-1.5) | -1 (rounds away from 0) |
-| Object.is(+0, -0) | false (only reliable check) |
-
----
-
-## 🧾 10️⃣ Mini Cheatsheet Summary
+Safe compare:
 
 ```js
-(10.567).toFixed(2) // '10.57'
-Number.isInteger(10.5) // false
-Number.parseInt('101', 2) // 5
-Number.MAX_SAFE_INTEGER // 9007199254740991
-Math.round(4.5) // 5
-0.1 + 0.2 // 0.30000000000000004
-Object.is(+0, -0) // false
-typeof NaN // 'number'
+Math.abs(a - b) < Number.EPSILON;
 ```
+
+---
+
+## 🧮 1️⃣1️⃣ Rounding Patterns
+
+### Round to N decimals
+
+```js
+const roundTo = (n, d) => Math.round(n * 10 ** d) / 10 ** d;
+```
+
+### No trailing zeros
+
+```js
+parseFloat(Math.round(n * 100) / 100);
+```
+
+### With trailing zeros
+
+```js
+(40.7).toFixed(2);
+```
+
+---
+
+## 🧾 1️⃣2️⃣ Safe Integers & BigInt
+
+Use BigInt for huge numbers:
+
+```js
+123456789n + 2n;
+```
+
+---
+
+## 🧮 1️⃣3️⃣ Exact Decimal Arithmetic
+
+Use integer math for currency:
+
+```js
+(1999 * 3) / 100; // 59.97
+```
+
+---
+
+## 🎯 1️⃣4️⃣ Formatting
+
+```js
+(1234.5).toLocaleString("en-IN", { style: "currency", currency: "INR" });
+```
+
+---
+
+## 🧩 1️⃣5️⃣ Interview Traps
+
+- Floating errors
+- `isNaN()` coercion
+- `.toFixed()` returns string
+- Precision loss above MAX_SAFE_INTEGER
+- +0 vs -0 (Object.is)
+
+```js
+(10.567).toFixed(2); // '10.57'
+Number.isInteger(10.5); // false
+Number.parseInt("101", 2); // 5
+Number.MAX_SAFE_INTEGER; // 9007199254740991
+Math.round(4.5); // 5
+0.1 + 0.2; // 0.30000000000000004
+Object.is(+0, -0); // false
+typeof NaN; // 'number'
+```
+
+---
+
+## 🎯 TL;DR Summary
+
+- Only one number type
+- Use Math.round for safe rounding
+- Use Number.EPSILON for comparisons
+- Prefer Number.isNaN()
+- Use BigInt for very large ints
+- Use integer math for currency
