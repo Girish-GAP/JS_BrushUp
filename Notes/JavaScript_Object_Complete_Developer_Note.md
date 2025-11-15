@@ -379,6 +379,33 @@ console.log(user); // { name: "Pawar" }
 
 ---
 
+**_Remove key using the delete operator:_**
+The delete operator directly removes a specified property from an object.
+
+```js
+const myObject = {
+  name: "Alice",
+  age: 30,
+  city: "New York",
+};
+
+// Delete the 'age' key
+delete myObject.age;
+
+console.log(myObject);
+// Expected output: { name: "Alice", city: "New York" }
+```
+
+**_Important Considerations:_**
+
+**_Mutation_ :** The delete operator directly modifies the original object. If you need to avoid mutation, consider creating a new object without the desired key using techniques like object destructuring with the rest operator or Object.assign().
+
+**_Performance_ :** While generally efficient for typical use cases, frequent deletions in performance-critical applications might have a minor impact as JavaScript engines may de-optimize the object.
+
+**_Prototype Chain_ :** The delete operator only removes properties directly on the object itself, not properties inherited from its prototype chain. If a property exists in the prototype, it will still be accessible after deletion from the object instance.
+
+---
+
 ## 🧠 TL;DR Summary
 
 | Use Case                             | Recommended |

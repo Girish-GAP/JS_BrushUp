@@ -44,6 +44,7 @@ with visual diagrams and step-by-step reasoning to help you see how recursion bu
 // if string is primitive and not mutable why it's like array ?
 // arr.size(); // and similar
 https://jscodebox.com/challenge/tic-tac-toe-solver
+// remember algo which helps to reach all the keys of object all nested also.
 
 // what is mean unmutatable if we can change the value ?
 let str = "ABCD";
