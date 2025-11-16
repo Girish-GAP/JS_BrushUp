@@ -40,7 +40,8 @@ with visual diagrams and step-by-step reasoning to help you see how recursion bu
 
 
 // regex is pending
-// what is deepclone
+// what is deepclone in obj
+// deepclone in arr ? 
 // if string is primitive and not mutable why it's like array ?
 // arr.size(); // and similar
 https://jscodebox.com/challenge/tic-tac-toe-solver
@@ -75,3 +76,8 @@ https://github.com/greatfrontend/top-javascript-interview-questions
 
 var let = 5;
 console.log(let);  // 5
+
+
+let arr = [3,2,1];
+let j = [...arr];
+console.log(arr === j); // false // WHY ? 
