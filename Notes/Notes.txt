@@ -68,6 +68,8 @@ https://roadmap.sh/questions/javascript-coding
 https://www.fullstack.cafe/interview-questions/javascript
 https://github.com/greatfrontend/top-javascript-interview-questions
 
+https://medium.com/deno-the-complete-reference/10-javascript-coding-interview-questions-part-2-42250060345c
+
 
 // problems from 80 need to check optimized solutions.
 
