@@ -69,6 +69,7 @@ https://www.fullstack.cafe/interview-questions/javascript
 https://github.com/greatfrontend/top-javascript-interview-questions
 
 https://medium.com/deno-the-complete-reference/10-javascript-coding-interview-questions-part-2-42250060345c
+https://www.greatfrontend.com/blog/50-must-know-javascript-interview-questions-by-ex-interviewers
 
 
 // problems from 80 need to check optimized solutions.
