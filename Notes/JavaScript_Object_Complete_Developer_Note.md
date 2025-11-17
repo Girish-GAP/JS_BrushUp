@@ -17,6 +17,9 @@ Internally equivalent to:
 const user = new Object({ name: "Girish", age: 25 });
 ```
 
+**_Objects are basically hash maps (key → value pairs)._**
+That means a key can only exist once — if you define the same key again, it overwrites the previous value.
+
 ---
 
 ## 🔹 2️⃣ What Happens Internally When You Create an Object?
