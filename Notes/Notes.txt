@@ -81,3 +81,9 @@ console.log(let);  // 5
 let arr = [3,2,1];
 let j = [...arr];
 console.log(arr === j); // false // WHY ? 
+
+// key in obj2 // same as arr includes ???
+let arr = [1,2,3];
+let arr2 = [1,2,3];
+console.log(arr === arr2); // false // WHY
+// console.log(arr.toString() == arr2.toString());
