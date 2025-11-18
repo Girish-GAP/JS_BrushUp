@@ -50,6 +50,20 @@ Number.isFinite(), Number.isInteger(), Number.isNaN(), Number.isSafeInteger(), N
 
 ---
 
+### How can you detect NaN in JavaScript?
+
+NaN is a special numeric value in JavaScript that indicates “Not-a-Number.” You can use Number.isNaN() or isNaN() to check for NaN, though they behave differently.
+
+```js
+console.log(Number.isNaN(NaN)); // true
+console.log(Number.isNaN("hello")); // false (doesn't coerce)
+console.log(Number.isNaN(undefined)); // false
+
+console.log(isNaN(NaN)); // true
+console.log(isNaN("hello")); // true (coerces to NaN)
+console.log(isNaN(undefined)); // true (coerces to NaN)
+```
+
 ## 🧱 6️⃣ Static Properties
 
 MAX_VALUE, MIN_VALUE, MAX_SAFE_INTEGER, MIN_SAFE_INTEGER, POSITIVE_INFINITY, NEGATIVE_INFINITY, NaN
