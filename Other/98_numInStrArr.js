@@ -1,15 +1,21 @@
 // Write a function which returns a list of elements which contains at least one character as digit
 
 let numInStr = (arr) => {
-  return arr.reduce((acc, item) => {
-    for (let char of item) {
-      if (!Number.isNaN(parseInt(char))) {
-        acc.push(item);
-        break;
-      }
-    }
-    return acc;
-  }, []);
+  // Solution 1 :
+  //   return arr.reduce((acc, item) => {
+  //     for (let char of item) {
+  //       if (!Number.isNaN(parseInt(char))) {
+  //         acc.push(item);
+  //         break;
+  //       }
+  //     }
+  //     return acc;
+  //   }, []);
+
+  // Solution 2 :
+  return arr.filter((value) => {
+    return /[0-9]/.test(value);
+  });
 };
 
 console.log(numInStr(["1a", "a", "2b", "b"])); // ['1a', '2b']
