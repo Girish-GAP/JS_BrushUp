@@ -352,6 +352,11 @@ Both notations are related:
 - `obj.key` → shorthand for `obj["key"]`
 - `obj[key]` → evaluates the **expression** inside the brackets.
 
+Because JavaScript evaluates the variable inside the brackets.
+let x = "a";
+obj[x] // same as obj["a"] → 1
+obj.x // looks for obj["x"], totally different
+
 ### Example of Computed Access
 
 ```js

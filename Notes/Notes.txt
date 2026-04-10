@@ -96,3 +96,35 @@ let arr = [1,2,3];
 let arr2 = [1,2,3];
 console.log(arr === arr2); // false // WHY
 // console.log(arr.toString() == arr2.toString());
+
+
+
+
+1. for..in is good but has problems
+❌ Problem 1: It loops over inherited properties too
+
+If the object has a prototype, for..in may pick extra keys.
+
+Example:
+
+Object.prototype.test = 1;
+
+let obj = { a: 10 };
+
+for (let key in obj) {
+  console.log(key); // a, test ❌ unwanted
+}
+
+
+
+//
+🟪 How React's 3-phase rendering works:
+
+render phase
+
+commit phase
+
+reconciliation
+
+🟪 How mutation breaks the Fiber architecture
+🟪 How to force parent and siblings to sync using state

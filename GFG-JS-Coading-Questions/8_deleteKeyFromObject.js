@@ -15,3 +15,15 @@ console.log(newObj); // {}
 // Intresting :
 // console.log(c); // undefined
 console.log(temp); // 3 // new name of c
+
+// let myObject = {
+//   name: "Alice",
+//   age: 30,
+//   city: "New York",
+//   data : {color : 'red'}
+// };
+
+// let {age, ...newKeys} = myObject;
+// // newKeys.data.color = "GIRISH";
+// // console.log(myObject); // { name: 'Alice', age: 30, city: 'New York', data: { color: 'GIRISH' } }
+// // CHanges orignal array
