@@ -50,7 +50,7 @@ Number.isFinite(), Number.isInteger(), Number.isNaN(), Number.isSafeInteger(), N
 
 ---
 
-### How can you detect NaN in JavaScript?
+## How can you detect NaN in JavaScript?
 
 NaN is a special numeric value in JavaScript that indicates “Not-a-Number.” You can use Number.isNaN() or isNaN() to check for NaN, though they behave differently.
 
@@ -64,6 +64,128 @@ console.log(isNaN("hello")); // true (coerces to NaN)
 console.log(isNaN(undefined)); // true (coerces to NaN)
 ```
 
+## What does `Number.isNaN()` actually mean?
+
+```js
+Number.isNaN(value)
+```
+
+It asks:
+
+> **"Is this value actually the special JavaScript value `NaN`?"**
+
+It does **not** convert the value first.
+
+```js
+Number.isNaN(NaN);         // true
+Number.isNaN("hello");     // false
+Number.isNaN(undefined);   // false
+Number.isNaN(123);         // false
+```
+
+### Why doesn't `"hello"` return `true`?
+
+Because `"hello"` is a **string**, not `NaN`.
+
+```js
+Number.isNaN("hello"); // false
+```
+
+However:
+
+```js
+const result = Number("hello");
+
+console.log(result); // NaN
+console.log(Number.isNaN(result)); // true
+```
+
+The conversion produced `NaN`, so now `Number.isNaN()` correctly detects it.
+
+---
+
+## `Number.isNaN()` vs `isNaN()`
+
+This is the important distinction.
+
+### `Number.isNaN()` → NO coercion
+
+```js
+Number.isNaN("123");   // false
+Number.isNaN("hello"); // false
+Number.isNaN("");      // false
+Number.isNaN(NaN);     // true
+```
+
+It checks the value **as it is**.
+
+### `isNaN()` → DOES coercion
+
+```js
+isNaN("123");   // false → "123" becomes 123
+isNaN("hello"); // true  → "hello" becomes NaN
+isNaN("");      // false → "" becomes 0
+isNaN(undefined); // true → undefined becomes NaN
+```
+
+So:
+
+```text
+Number.isNaN(x)
+    ↓
+"Is x already NaN?"
+
+isNaN(x)
+    ↓
+"After converting x to a number, does it become NaN?"
+```
+
+---
+
+## Why is `Number.isNaN()` useful?
+
+Calculations or conversions can produce `NaN`:
+
+```js
+const height = Number("abc");
+
+console.log(height); // NaN
+
+if (Number.isNaN(height)) {
+    console.log("Invalid number");
+}
+```
+
+This is especially useful when you want to detect a **failed numeric calculation/conversion** without accidentally converting other types.
+
+### Rule to remember
+
+> **Use `Number.isNaN()` when you specifically want to detect an actual `NaN` result.**
+
+And remember:
+
+```js
+NaN !== NaN // true
+```
+
+So don't use:
+
+```js
+value === NaN // ❌
+```
+
+Use:
+
+```js
+Number.isNaN(value) // ✅
+```
+also remember : 
+```js
+console.log(typeof(NaN)) // number
+```
+---
+---
+
 ## 🧱 6️⃣ Static Properties
 
 MAX_VALUE, MIN_VALUE, MAX_SAFE_INTEGER, MIN_SAFE_INTEGER, POSITIVE_INFINITY, NEGATIVE_INFINITY, NaN
@@ -72,7 +194,36 @@ MAX_VALUE, MIN_VALUE, MAX_SAFE_INTEGER, MIN_SAFE_INTEGER, POSITIVE_INFINITY, NEG
 
 ## 🎯 7️⃣ Math Methods
 
-Math.round(), floor(), ceil(), trunc(), random(), pow(), sqrt(), abs(), min(), max()
+
+| Method          | What it does                                                      | Example                     |
+| --------------- | ----------------------------------------------------------------- | --------------------------- |
+| `Math.round()`  | Rounds to the nearest integer                                     | `Math.round(4.6) // 5`      |
+| `Math.floor()`  | Rounds **down** to the nearest integer                            | `Math.floor(4.9) // 4`      |
+| `Math.ceil()`   | Rounds **up** to the nearest integer                              | `Math.ceil(4.1) // 5`       |
+| `Math.trunc()`  | Removes the decimal part                                          | `Math.trunc(4.9) // 4`      |
+| `Math.random()` | Generates a random number from `0` (inclusive) to `1` (exclusive) | `Math.random() // 0.734...` |
+| `Math.pow()`    | Raises a number to a power                                        | `Math.pow(2, 3) // 8`       |
+| `Math.sqrt()`   | Returns the square root                                           | `Math.sqrt(25) // 5`        |
+| `Math.abs()`    | Returns the absolute/positive value                               | `Math.abs(-10) // 10`       |
+| `Math.min()`    | Returns the smallest number                                       | `Math.min(5, 2, 8) // 2`    |
+| `Math.max()`    | Returns the largest number                                        | `Math.max(5, 2, 8) // 8`    |
+
+### Quick difference to remember
+
+```js
+Math.round(4.6) // 5   → nearest
+Math.floor(4.9) // 4   → down
+Math.ceil(4.1)  // 5   → up
+Math.trunc(4.9) // 4   → remove decimal
+```
+
+**Note:** `Math.trunc()` is different from `floor()` for negative numbers:
+
+```js
+Math.floor(-4.9) // -5
+Math.trunc(-4.9) // -4
+```
+
 
 ---
 
