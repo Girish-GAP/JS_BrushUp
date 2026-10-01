@@ -237,27 +237,190 @@ Use `Number.isNaN()` instead of `isNaN()`.
 
 ## ⚙️ 9️⃣ Type Conversion
 
-Number(), +str, parseInt(), parseFloat()
+| Method | What it does | Example |
+|---|---|---|
+| `Number()` | Converts a value to a number | `Number("42") // 42` |
+| `+str` | Unary `+` converts a string/value to a number | `+"42" // 42` |
+| `parseInt()` | Converts a string to an integer, stopping at the decimal/non-numeric part | `parseInt("42.8") // 42` |
+| `parseFloat()` | Converts a string to a floating-point number | `parseFloat("42.8") // 42.8` |
+
+### Important differences
+
+```js
+Number("42px")       // NaN
+parseInt("42px")     // 42
+parseFloat("42.8px") // 42.8
+```
+
+**Why?**
+
+- `Number()` → expects the **whole value** to represent a valid number.
+- `parseInt()` → reads an **integer from the beginning**.
+- `parseFloat()` → reads a **decimal number from the beginning**.
+
+### Unary `+`
+
+```js
+const str = "123";
+
++str // 123
+```
+
+It's basically a short way to perform numeric conversion:
+
+```js
+Number(str) // 123
++str        // 123
+```
+
+### Quick rule
+
+```text
+Number()     → "Convert the whole value to a number"
++value       → "Short numeric conversion"
+parseInt()   → "Get an integer from the beginning"
+parseFloat() → "Get a decimal number from the beginning"
+```
 
 ---
 
 ## 🧠 🔟 Floating-Point Issues
 
-```js
-0.1 + 0.2; // 0.30000000000000004
-```
+## JavaScript — Floating-Point Comparison & `Number.EPSILON`
 
-Fix:
+### The problem
 
-```js
-Math.round((0.1 + 0.2) * 100) / 100;
-```
-
-Safe compare:
+JavaScript uses floating-point numbers, so some decimal calculations are not represented exactly:
 
 ```js
-Math.abs(a - b) < Number.EPSILON;
+0.1 + 0.2 === 0.3
+// false
 ```
+
+Even though mathematically:
+
+```text
+0.1 + 0.2 = 0.3
+```
+
+JavaScript may internally get something like:
+
+```text
+0.30000000000000004
+```
+Problem : 
+Decimal number ->  Stored internally as binary floating-point  ->  Some decimals cannot be represented exactly  ->  Tiny rounding errors can appear  ->  Don't blindly use === for sensitive decimal calculations
+
+---
+
+### How to compare decimal calculations
+
+Instead of checking exact equality:
+
+```js
+actual === expected // ❌ may fail because of tiny precision errors
+```
+
+Check how **far apart** the values are:
+
+```js
+Math.abs(actual - expected) < tolerance
+```
+
+Example:
+
+```js
+const actual = 0.3 - 0.1;
+const expected = 0.2;
+const tolerance = 0.000001;
+
+Math.abs(actual - expected) < tolerance;
+// true
+```
+
+### What is happening?
+
+```text
+actual:       0.19999999999999998
+expected:     0.2
+                         ↓
+             calculate the difference
+                         ↓
+        Math.abs(actual - expected)
+                         ↓
+              tiny difference
+                         ↓
+          smaller than tolerance?
+                         ↓
+                        true
+```
+
+The subtraction is **not trying to make the answer zero**.
+
+It asks:
+
+> **"How far apart are these two numbers?"**
+
+---
+
+### What is `Number.EPSILON`?
+
+`Number.EPSILON` is a very small built-in value:
+
+```js
+Number.EPSILON
+// 2.220446049250313e-16
+```
+
+It can be used as a tolerance for **very tiny floating-point errors**:
+
+```js
+Math.abs(0.1 + 0.2 - 0.3) < Number.EPSILON;
+// true
+```
+
+### Important: tolerance depends on the requirement
+
+Don't assume `Number.EPSILON` should always be used.
+
+The general pattern is:
+
+```js
+Math.abs(actual - expected) < tolerance
+```
+
+And `tolerance` depends on **how much error your application can accept**.
+
+For example:
+
+```js
+const tolerance = 0.000001;
+```
+
+means:
+
+> "A difference smaller than `0.000001` is close enough for my purpose."
+
+### Remember
+
+```text
+===                         → exact equality
+Math.abs(a - b) < tolerance → close enough
+Number.EPSILON              → very tiny built-in tolerance/reference
+```
+
+```js
+Math.round((0.1 + 0.2) * 100) / 100; // Rounding changes the value to the precision I want.
+```
+
+```js
+const actual = 0.3 - 0.1;
+const expected = 0.2;
+const tolerance = 0.000001;
+Math.abs(actual - expected) < tolerance;  // Tolerance checks whether two values are close enough.
+```
+
+**Main concept:** When dealing with floating-point calculations, don't blindly expect decimal values to be exactly equal. Compare their difference against an appropriate tolerance.
 
 ---
 
