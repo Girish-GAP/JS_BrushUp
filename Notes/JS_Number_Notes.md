@@ -188,7 +188,19 @@ console.log(typeof(NaN)) // number
 
 ## 🧱 6️⃣ Static Properties
 
-MAX_VALUE, MIN_VALUE, MAX_SAFE_INTEGER, MIN_SAFE_INTEGER, POSITIVE_INFINITY, NEGATIVE_INFINITY, NaN
+| Property | Meaning |
+|---|---|
+| `Number.MAX_SAFE_INTEGER` | Largest safe integer |
+| `Number.MIN_SAFE_INTEGER` | Smallest safe integer |
+| `Number.MAX_VALUE` | Largest finite number |
+| `Number.MIN_VALUE` | Smallest positive representable number |
+| `Number.POSITIVE_INFINITY` | Positive infinity |
+| `Number.NEGATIVE_INFINITY` | Negative infinity |
+| `Number.NaN` | Not-a-Number value |
+| `Number.EPSILON` | Precision gap near 1 |
+
+> **Important distinction:** `Number.MIN_VALUE` is a tiny positive number, not the most negative number.
+
 
 ---
 
@@ -448,28 +460,99 @@ parseFloat(Math.round(n * 100) / 100);
 
 ## 🧾 1️⃣2️⃣ Safe Integers & BigInt
 
-Use BigInt for huge numbers:
+## BigInt
+
+### 1. What is BigInt?
+
+Used to represent very large integers without losing integer precision.
 
 ```js
-123456789n + 2n;
+const num = 12345678901234567890n;
+console.log(num);
 ```
+
+### 2. When is it needed?
+
+JavaScript's `Number` type has a safe-integer limit:
+
+```js
+Number.MAX_SAFE_INTEGER;
+// 9007199254740991
+```
+
+Use `BigInt` when you need exact integer calculations beyond this range.
+
+### 3. Creating BigInt
+
+```js
+const a = 100n;
+const b = BigInt("9007199254740993");
+```
+
+### 4. Important Rules
+
+```js
+10n + 5n; // 15n
+
+10n + 5;  // TypeError: Cannot mix BigInt and Number
+
+10n / 3n; // 3n (fraction discarded)
+```
+
+- Add `n` to an integer literal to create a `BigInt`.
+- `BigInt` supports integers, not decimal fractions.
+- Avoid converting huge `BigInt` values to `Number`, because precision can be lost.
+- `typeof 10n` returns `"bigint"`.
+
+### 5. When Not to Use It
+
+For ordinary calculations such as BMI, UI values, and most everyday arithmetic, `Number` is sufficient.
+
+> **Interview takeaway:** `BigInt` represents arbitrarily large integers, but it cannot be mixed directly with `Number` in arithmetic.
+
 
 ---
 
 ## 🧮 1️⃣3️⃣ Exact Decimal Arithmetic
 
-Use integer math for currency:
+## Floating-Point Precision and Currency
+
+### Problem
+
+JavaScript `Number` can produce floating-point precision errors.
 
 ```js
-(1999 * 3) / 100; // 59.97
+0.1 + 0.2; // 0.30000000000000004
 ```
+
+### Solution
+
+For currency, store amounts as integers in the smallest currency unit (paise or cents).
+
+```js
+const priceInPaise = 1999; // ₹19.99
+const quantity = 3;
+
+const totalPaise = priceInPaise * quantity; // 5997
+const totalRupees = totalPaise / 100;        // 59.97
+```
+
+### Important Points
+
+- Keep calculations in integer paise as long as possible.
+- Convert to rupees only when needed for display.
+- Handle rounding carefully when a calculation produces fractions of a paise.
+- `BigInt` can represent huge integers, but it doesn't support decimal fractions directly.
+
+> **Interview takeaway:** Using integer currency units reduces floating-point errors in financial calculations.
+
 
 ---
 
 ## 🎯 1️⃣4️⃣ Formatting
 
 ```js
-(1234.5).toLocaleString("en-IN", { style: "currency", currency: "INR" });
+(1234.5).toLocaleString("en-IN", { style: "currency", currency: "INR" }); // ₹1,234.50
 ```
 
 ---
